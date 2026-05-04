@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/faysal0x1/go-students-api/internal/config"
+	"github.com/faysal0x1/go-students-api/internal/http/handlers/student"
 )
 
 func main() {
@@ -26,9 +27,7 @@ func main() {
 
 	router := http.NewServeMux()
 
-	router.HandleFunc("GET /", func(w http.ResponseWriter, request *http.Request) {
-		w.Write([]byte("Hello World"))
-	})
+	router.HandleFunc("POST /api/students", student.New())
 
 	// setup server
 
