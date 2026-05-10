@@ -58,3 +58,28 @@ func New(storage storage.Storage) http.HandlerFunc {
 		})
 	}
 }
+
+func GetById(storage storage.Storage) http.HandlerFunc {
+
+	return func(w http.ResponseWriter, request *http.Request) {
+		id := request.PathValue("id")
+
+		slog.Info("Getting Student by ID")
+
+		intId, err := strconv.ParseInt(id, 10, 64)
+
+		if err != nil {
+			response.WriteJson(w, http.StatusBadRequest, response.GeneralError(err))
+			return
+		}
+
+		student, err := storage.GetStudentById(intId)
+
+		if err != nil {
+			response.WriteJson(w, http.StatusInternalServerError, response.GeneralError(err))
+			return
+		}
+
+		response.WriteJson(w, http.StatusOK, student)
+	}
+}
